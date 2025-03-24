@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WatchTracker | Track Your Movies & TV Shows</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <title>WatchTracker - Track Your Movies & TV Shows</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </div>
-
     <div class="container">
         <header>
             <h1>WatchTracker</h1>
             <p class="tagline">Keep track of your favorite movies and TV shows</p>
         </header>
-
+        
         <main>
             <section class="form-section">
                 <h2>Add New Entry</h2>
                 <form id="entryForm">
+                    <div class="form-group search-group">
+                        <label for="search">Search for a Movie or TV Show</label>
+                        <div class="search-container">
+                            <input type="text" id="search" placeholder="Search TMDB...">
+                            <div id="searchResults" class="search-results"></div>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" id="title" placeholder="Enter title" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="type">Type</label>
                         <select id="type" required>
@@ -34,29 +39,36 @@
                             <option value="TV Show">TV Show</option>
                         </select>
                     </div>
+                    
                     <div class="form-group">
                         <label>Rating</label>
                         <div class="rating-container">
-                            <input type="radio" id="star5" name="rating" value="5">
-                            <label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star5" name="rating" value="5" required>
+                            <label for="star5"><i class="far fa-star"></i></label>
+                            
                             <input type="radio" id="star4" name="rating" value="4">
-                            <label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+                            <label for="star4"><i class="far fa-star"></i></label>
+                            
                             <input type="radio" id="star3" name="rating" value="3">
-                            <label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+                            <label for="star3"><i class="far fa-star"></i></label>
+                            
                             <input type="radio" id="star2" name="rating" value="2">
-                            <label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star1" name="rating" value="1" required>
-                            <label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                            <label for="star2"><i class="far fa-star"></i></label>
+                            
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1"><i class="far fa-star"></i></label>
                         </div>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="notes">Notes (optional)</label>
+                        <label for="notes">Notes (Optional)</label>
                         <textarea id="notes" placeholder="Add your thoughts..."></textarea>
                     </div>
+                    
                     <button type="submit" class="btn btn-block">Add Entry</button>
                 </form>
             </section>
-
+            
             <section class="entries-section">
                 <div class="entries-header">
                     <h2>Your Entries</h2>
@@ -66,26 +78,29 @@
                         <button class="filter-btn" data-filter="TV Show">TV Shows</button>
                     </div>
                 </div>
-                <div class="entries-grid" id="entriesGrid">
-                    <!-- Entries will be dynamically added here -->
+                
+                <div id="entriesGrid" class="entries-grid">
+                    <!-- Entries will be populated here via JavaScript -->
                 </div>
             </section>
         </main>
     </div>
-
+    
     <!-- Edit Modal -->
-    <div class="modal" id="editModal">
+    <div id="editModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Edit Entry</h2>
-                <button class="close-modal" id="closeModal">&times;</button>
+                <button id="closeModal" class="close-modal">&times;</button>
             </div>
             <form id="editForm">
                 <input type="hidden" id="editId">
+                
                 <div class="form-group">
                     <label for="editTitle">Title</label>
-                    <input type="text" id="editTitle" required>
+                    <input type="text" id="editTitle" placeholder="Enter title" required>
                 </div>
+                
                 <div class="form-group">
                     <label for="editType">Type</label>
                     <select id="editType" required>
@@ -93,30 +108,58 @@
                         <option value="TV Show">TV Show</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
                     <label>Rating</label>
-                    <div class="rating-container" id="editRatingContainer">
-                        <input type="radio" id="editStar5" name="editRating" value="5">
-                        <label for="editStar5" title="5 stars"><i class="fas fa-star"></i></label>
+                    <div id="editRatingContainer" class="rating-container">
+                        <input type="radio" id="editStar5" name="editRating" value="5" required>
+                        <label for="editStar5"><i class="far fa-star"></i></label>
+                        
                         <input type="radio" id="editStar4" name="editRating" value="4">
-                        <label for="editStar4" title="4 stars"><i class="fas fa-star"></i></label>
+                        <label for="editStar4"><i class="far fa-star"></i></label>
+                        
                         <input type="radio" id="editStar3" name="editRating" value="3">
-                        <label for="editStar3" title="3 stars"><i class="fas fa-star"></i></label>
+                        <label for="editStar3"><i class="far fa-star"></i></label>
+                        
                         <input type="radio" id="editStar2" name="editRating" value="2">
-                        <label for="editStar2" title="2 stars"><i class="fas fa-star"></i></label>
+                        <label for="editStar2"><i class="far fa-star"></i></label>
+                        
                         <input type="radio" id="editStar1" name="editRating" value="1">
-                        <label for="editStar1" title="1 star"><i class="fas fa-star"></i></label>
+                        <label for="editStar1"><i class="far fa-star"></i></label>
                     </div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="editNotes">Notes (optional)</label>
-                    <textarea id="editNotes"></textarea>
+                    <label for="editNotes">Notes (Optional)</label>
+                    <textarea id="editNotes" placeholder="Add your thoughts..."></textarea>
                 </div>
+                
                 <button type="submit" class="btn btn-block">Update Entry</button>
             </form>
         </div>
     </div>
-
-    <script src="script.js"></script>
+    
+    <!-- Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content details-content">
+            <div class="modal-header">
+                <h2 id="detailsTitle">Movie Details</h2>
+                <button id="closeDetailsModal" class="close-modal">&times;</button>
+            </div>
+            <div id="detailsBody" class="modal-body details-body">
+                <!-- Details will be populated here via JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle -->
+    <div id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <!-- Scripts -->
+    <script type="module" src="config.js"></script>
+    <script type="module" src="tmdb-api.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
